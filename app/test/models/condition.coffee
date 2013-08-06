@@ -2,7 +2,7 @@ define [
   'underscore'
   'backbone'
 
-  'json!data/aneurysm.json'
+  'json!test/data/aneurysm.json'
 ], (_, Backbone, data) ->
 
   class Condition extends Backbone.Model

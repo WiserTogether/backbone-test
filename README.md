@@ -59,9 +59,9 @@ Install node.js and npm::
 
     $ sudo apt-get install nodejs npm
 
-Install coffee-script
+Install coffee-script and r.js
 
-    $ sudo npm install -g coffee-script
+    $ sudo npm install -g coffee-script requirejs
 
 
 Usage

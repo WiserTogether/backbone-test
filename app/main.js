@@ -1,1 +1,1 @@
-require(['cs!tweaks', 'cs!router']);
+require(['cs!test/tweaks', 'cs!test/router']);

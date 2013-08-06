@@ -3,8 +3,8 @@ define [
   'underscore'
   'backbone'
 
-  'text!templates/condition.html'
-  'text!templates/treatment.html'
+  'text!test/templates/condition.html'
+  'text!test/templates/treatment.html'
   
 ], ($, _, Backbone, template, treatTemplate) ->
 

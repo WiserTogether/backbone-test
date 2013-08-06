@@ -3,7 +3,7 @@ define [
   'underscore'
   'backbone'
 
-  'text!templates/index.html'
+  'text!test/templates/index.html'
   
 ], ($, _, Backbone, template) ->
 

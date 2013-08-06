@@ -3,10 +3,10 @@ define [
   'underscore'
   'backbone'
   
-  'cs!models/condition'
+  'cs!test/models/condition'
 
-  'cs!views/index'
-  'cs!views/condition'
+  'cs!test/views/index'
+  'cs!test/views/condition'
 
 ], ($, _, Backbone, aneurysm, IndexView, ConditionView) ->
 

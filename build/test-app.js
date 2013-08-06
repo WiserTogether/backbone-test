@@ -3240,7 +3240,7 @@ define("underscore", (function (global) {
 
 (function() {
 
-  define('cs!tweaks',['underscore'], function(_) {
+  define('cs!test/tweaks',['underscore'], function(_) {
     return _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g,
       evaluate: /\{\%(.+?)\%\}/g
@@ -14677,7 +14677,7 @@ define('json',['text'], function(text){
     };
 });
 
-define("json!data/aneurysm.json", function(){ return {
+define("json!test/data/aneurysm.json", function(){ return {
     "name": "Aneurysm",
     "treatments": {
         "ace-inhibitors": {
@@ -14715,7 +14715,7 @@ define("json!data/aneurysm.json", function(){ return {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define('cs!models/condition',['underscore', 'backbone', 'json!data/aneurysm.json'], function(_, Backbone, data) {
+  define('cs!test/models/condition',['underscore', 'backbone', 'json!test/data/aneurysm.json'], function(_, Backbone, data) {
     var Condition;
     Condition = (function(_super) {
 
@@ -14753,13 +14753,13 @@ define("json!data/aneurysm.json", function(){ return {
 
 }).call(this);
 
-define('text!templates/index.html',[],function () { return '<h1>{{ title }}</h1>\n<div>\n    <p>Welcome to WiserTogether test Backbone application.</p>\n    <a href="#/slug/">Aneurysm treatment</a>\n</div>\n';});
+define('text!test/templates/index.html',[],function () { return '<h1>{{ title }}</h1>\n<div>\n    <p>Welcome to WiserTogether test Backbone application.</p>\n    <a href="#/slug/">Aneurysm treatment</a>\n</div>\n';});
 
 (function() {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define('cs!views/index',['jquery', 'underscore', 'backbone', 'text!templates/index.html'], function($, _, Backbone, template) {
+  define('cs!test/views/index',['jquery', 'underscore', 'backbone', 'text!test/templates/index.html'], function($, _, Backbone, template) {
     var IndexView;
     return IndexView = (function(_super) {
 
@@ -14799,16 +14799,16 @@ define('text!templates/index.html',[],function () { return '<h1>{{ title }}</h1>
 
 }).call(this);
 
-define('text!templates/condition.html',[],function () { return '<h1>{{ name }}</h1>\n<div>\n    <h2>Treatments:</h2>\n</div>\n';});
+define('text!test/templates/condition.html',[],function () { return '<h1>{{ name }}</h1>\n<div>\n    <h2>Treatments:</h2>\n</div>\n';});
 
-define('text!templates/treatment.html',[],function () { return '<h3>{{ display_name }}</h3>\n<div>{{ description }}</div>\n';});
+define('text!test/templates/treatment.html',[],function () { return '<h3>{{ display_name }}</h3>\n<div>{{ description }}</div>\n';});
 
 (function() {
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  define('cs!views/condition',['jquery', 'underscore', 'backbone', 'text!templates/condition.html', 'text!templates/treatment.html'], function($, _, Backbone, template, treatTemplate) {
+  define('cs!test/views/condition',['jquery', 'underscore', 'backbone', 'text!test/templates/condition.html', 'text!test/templates/treatment.html'], function($, _, Backbone, template, treatTemplate) {
     var ConditionView, TreatmentView, TreatmentsView;
     TreatmentView = (function(_super) {
 
@@ -14891,7 +14891,7 @@ define('text!templates/treatment.html',[],function () { return '<h3>{{ display_n
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define('cs!router',['jquery', 'underscore', 'backbone', 'cs!models/condition', 'cs!views/index', 'cs!views/condition'], function($, _, Backbone, aneurysm, IndexView, ConditionView) {
+  define('cs!test/router',['jquery', 'underscore', 'backbone', 'cs!test/models/condition', 'cs!test/views/index', 'cs!test/views/condition'], function($, _, Backbone, aneurysm, IndexView, ConditionView) {
     /*
       Backbone navigation router class. Handles url change events
     
@@ -14974,6 +14974,6 @@ define('text!templates/treatment.html',[],function () { return '<h3>{{ display_n
 
 }).call(this);
 
-require(['cs!tweaks', 'cs!router']);
+require(['cs!test/tweaks', 'cs!test/router']);
 
 define("main", function(){});
