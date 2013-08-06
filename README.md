@@ -50,3 +50,23 @@ Submit your results by emailing us a patchset created via the git format-patch
 command.
 
 Email your patchset to: tech-jobs@wisertogether.com
+
+
+Installation
+============
+
+Install node.js and npm::
+
+    $ sudo apt-get install nodejs npm
+
+Install coffee-script and r.js
+
+    $ sudo npm install -g coffee-script requirejs
+
+
+Usage
+=====
+
+To build main JS file from CoffeeScript::
+
+    $ source ./build_script.sh
