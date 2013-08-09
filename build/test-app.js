@@ -1983,7 +1983,6 @@ var requirejs, require, define;
 
 define("requireLib", function(){});
 
-define('cs',{load: function(id){throw new Error("Dynamic load not allowed: " + id);}});
 //     Underscore.js 1.5.1
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3237,17 +3236,6 @@ define("underscore", (function (global) {
         return ret || global._;
     };
 }(this)));
-
-(function() {
-
-  define('cs!test/tweaks',['underscore'], function(_) {
-    return _.templateSettings = {
-      interpolate: /\{\{(.+?)\}\}/g,
-      evaluate: /\{\%(.+?)\%\}/g
-    };
-  });
-
-}).call(this);
 
 /*!
  * jQuery JavaScript Library v1.10.2
@@ -14711,269 +14699,207 @@ define("json!test/data/aneurysm.json", function(){ return {
     }
 };});
 
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+define('test/models/condition',['underscore', 'backbone', 'json!test/data/aneurysm.json'], function(_, Backbone, data) {
+var Condition = Backbone.Model.extend({
 
-  define('cs!test/models/condition',['underscore', 'backbone', 'json!test/data/aneurysm.json'], function(_, Backbone, data) {
-    var Condition;
-    Condition = (function(_super) {
+  defaults: {
+    name: ''
+  },
 
-      __extends(Condition, _super);
-
-      function Condition() {
-        return Condition.__super__.constructor.apply(this, arguments);
+  fetch: function(options) {
+    if (!this.set(data, options)) {
+      return false;
+    }
+    if (options != null) {
+      if (typeof options.success === "function") {
+        options.success(this);
       }
+    }
+  },
 
-      Condition.prototype.defaults = {
-        name: ''
-      };
+  save: function(options) {
+    if (options != null) {
+      if (typeof options.success === "function") {
+        options.success(this);
+      }
+    }
+    return false;
+  }
 
-      Condition.prototype.fetch = function(options) {
-        if (!this.set(data, options)) {
-          return false;
-        }
-        return options != null ? typeof options.success === "function" ? options.success(this) : void 0 : void 0;
-      };
+});
 
-      Condition.prototype.save = function(options) {
-        if (options != null) {
-          if (typeof options.success === "function") {
-            options.success(this);
-          }
-        }
-        return false;
-      };
-
-      return Condition;
-
-    })(Backbone.Model);
-    return new Condition;
-  });
-
-}).call(this);
+return new Condition;
+});
 
 define('text!test/templates/index.html',[],function () { return '<h1>{{ title }}</h1>\n<div>\n    <p>Welcome to WiserTogether test Backbone application.</p>\n    <a href="#/slug/">Aneurysm treatment</a>\n</div>\n';});
 
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+define('test/views/index',['jquery', 'underscore', 'backbone', 'text!test/templates/index.html'], function($, _, Backbone, template) {
 
-  define('cs!test/views/index',['jquery', 'underscore', 'backbone', 'text!test/templates/index.html'], function($, _, Backbone, template) {
-    var IndexView;
-    return IndexView = (function(_super) {
+var IndexView = Backbone.View.extend({
 
-      __extends(IndexView, _super);
+  template: _.template(template),
+  title: "Test Application",
+  events: {
+    "click a": "navigate"
+  },
 
-      function IndexView() {
-        return IndexView.__super__.constructor.apply(this, arguments);
-      }
+  render: function() {
+    document.title = this.title;
+    this.$el.html(this.template({
+      title: this.title
+    }));
+    return this;
+  },
 
-      IndexView.prototype.template = _.template(template);
+  navigate: function(e) {
+    if (e != null) {
+      e.preventDefault();
+    }
+    Backbone.history.navigate($(e.currentTarget).attr('href'), true);
+  }
+});
 
-      IndexView.prototype.title = "Test Application";
-
-      IndexView.prototype.events = {
-        "click a": "navigate"
-      };
-
-      IndexView.prototype.render = function() {
-        document.title = this.title;
-        this.$el.html(this.template({
-          title: this.title
-        }));
-        return this;
-      };
-
-      IndexView.prototype.navigate = function(e) {
-        if (e != null) {
-          e.preventDefault();
-        }
-        return Backbone.history.navigate($(e.currentTarget).attr('href'), true);
-      };
-
-      return IndexView;
-
-    })(Backbone.View);
-  });
-
-}).call(this);
-
+return IndexView;
+});
 define('text!test/templates/condition.html',[],function () { return '<h1>{{ name }}</h1>\n<div>\n    <h2>Treatments:</h2>\n</div>\n';});
 
 define('text!test/templates/treatment.html',[],function () { return '<h3>{{ display_name }}</h3>\n<div>{{ description }}</div>\n';});
 
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+define('test/views/condition',['jquery', 'underscore', 'backbone', 'text!test/templates/condition.html', 'text!test/templates/treatment.html'],
+  function($, _, Backbone, template, treatTemplate) {
 
-  define('cs!test/views/condition',['jquery', 'underscore', 'backbone', 'text!test/templates/condition.html', 'text!test/templates/treatment.html'], function($, _, Backbone, template, treatTemplate) {
-    var ConditionView, TreatmentView, TreatmentsView;
-    TreatmentView = (function(_super) {
+var TreatmentView = Backbone.View.extend({
 
-      __extends(TreatmentView, _super);
+  tagName: 'li',
+  template: _.template(treatTemplate),
 
-      function TreatmentView() {
-        return TreatmentView.__super__.constructor.apply(this, arguments);
-      }
+  render: function() {
+    this.$el.html(this.template(this.model));
+    return this;
+  }
+});
 
-      TreatmentView.prototype.tagName = 'li';
+var TreatmentsView = Backbone.View.extend({
 
-      TreatmentView.prototype.template = _.template(treatTemplate);
+  tagName: 'ul',
 
-      TreatmentView.prototype.render = function() {
-        this.$el.html(this.template(this.model));
-        return this;
-      };
+  render: function() {
+    this.$el.empty();
+    _.each(this.model.get('treatments'), this.addOne, this);
+    return this;
+  },
 
-      return TreatmentView;
+  addOne: function(treat) {
+    this.$el.append(new TreatmentView({
+      model: treat
+    }).render().el);
+  }
+});
 
-    })(Backbone.View);
-    TreatmentsView = (function(_super) {
+var ConditionView = Backbone.View.extend({
 
-      __extends(TreatmentsView, _super);
+  template: _.template(template),
 
-      function TreatmentsView() {
-        this.addOne = __bind(this.addOne, this);
-        return TreatmentsView.__super__.constructor.apply(this, arguments);
-      }
+  initialize: function(options) {
+    ConditionView.__super__.initialize.call(this, options);
+    this.listenTo(this.model, 'change:name', this.render);
+  },
 
-      TreatmentsView.prototype.tagName = 'ul';
+  render: function() {
+    document.title = this.model.get('name');
 
-      TreatmentsView.prototype.render = function() {
-        this.$el.empty();
-        _.each(this.model.get('treatments'), this.addOne);
-        return this;
-      };
+    this.$el.html(this.template(this.model.attributes));
+    this.$('div').append(new TreatmentsView({
+      model: this.model
+    }).render().el);
+    return this;
+  }
+});
 
-      TreatmentsView.prototype.addOne = function(treat) {
-        return this.$el.append(new TreatmentView({
-          model: treat
-        }).render().el);
-      };
+return ConditionView;
+});
 
-      return TreatmentsView;
+define('test/router',['jquery', 'underscore', 'backbone', 'test/models/condition', 'test/views/index', 'test/views/condition'],
+  function($, _, Backbone, aneurysm, IndexView, ConditionView) {
+/*
+  Backbone navigation router class. Handles url change events
 
-    })(Backbone.View);
-    return ConditionView = (function(_super) {
+  - `routes` - dictionary-like object with route[String]:handler[String] structure
+*/
 
-      __extends(ConditionView, _super);
+var Router = Backbone.Router.extend({
 
-      function ConditionView() {
-        return ConditionView.__super__.constructor.apply(this, arguments);
-      }
+  routes: {
+    '': 'index',
+    'slug(/)': 'condition',
+    '*actions': 'index'
+  },
 
-      ConditionView.prototype.template = _.template(template);
+  /*
+      Router initialization. Defines needed variables: `commonView`, `playerView`, `indexView`, `addToPlaylistView`.
 
-      ConditionView.prototype.initialize = function(options) {
-        ConditionView.__super__.initialize.call(this, options);
-        return this.listenTo(this.model, 'change:name', this.render);
-      };
+      Resets all routes. Starts Backbone.history.
+  */
+  initialize: function(options) {
+    this.autoResetRoutes();
+    Backbone.history.start({
+      pushState: false
+    });
+  },
 
-      ConditionView.prototype.render = function() {
-        document.title = this.model.get('name');
-        this.$el.html(this.template(this.model.attributes));
-        this.$('div').append(new TreatmentsView({
-          model: this.model
-        }).render().el);
-        return this;
-      };
-
-      return ConditionView;
-
-    })(Backbone.View);
-  });
-
-}).call(this);
-
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-  define('cs!test/router',['jquery', 'underscore', 'backbone', 'cs!test/models/condition', 'cs!test/views/index', 'cs!test/views/condition'], function($, _, Backbone, aneurysm, IndexView, ConditionView) {
-    /*
-      Backbone navigation router class. Handles url change events
-    
-      - `routes` - dictionary-like object with route[String]:handler[String] structure
-    */
-
-    var Router;
-    Router = (function(_super) {
-
-      __extends(Router, _super);
-
-      function Router() {
-        return Router.__super__.constructor.apply(this, arguments);
-      }
-
-      Router.prototype.routes = {
-        '': 'index',
-        'slug(/)': 'condition',
-        '*actions': 'index'
-      };
-
-      /*
-          Router initialization. Defines needed variables: `commonView`, `playerView`, `indexView`, `addToPlaylistView`.
-      
-          Resets all routes. Starts Backbone.history.
-      */
-
-
-      Router.prototype.initialize = function(options) {
-        this.autoResetRoutes();
-        return Backbone.history.start({
-          pushState: false
-        });
-      };
-
-      Router.prototype.autoResetRoutes = function() {
-        var _this = this;
-        return _(this.routes).each(function(destination) {
-          return _(_this.routes).each(function(other) {
-            if (destination !== other) {
-              return _this.on("route:" + destination, _this["reset_" + other], _this);
-            }
-          });
-        });
-      };
-
-      Router.prototype.index = function() {
-        this.indexView = new IndexView;
-        return $('body').append(this.indexView.render().el);
-      };
-
-      Router.prototype.reset_index = function() {
-        /* Hide index here
-        */
-
-        var _ref;
-        return (_ref = this.indexView) != null ? _ref.remove() : void 0;
-      };
-
-      Router.prototype.condition = function() {
-        this.conditionView = new ConditionView({
-          model: aneurysm
-        });
-        $('body').append(this.conditionView.render().el);
-        if (!aneurysm.get('name')) {
-          return aneurysm.fetch();
+  autoResetRoutes: function() {
+    var _this = this;
+    _(this.routes).each(function(destination) {
+      _(_this.routes).each(function(other) {
+        if (destination !== other) {
+          _this.on("route:" + destination, _this["reset_" + other], _this);
         }
-      };
+      });
+    });
+  },
 
-      Router.prototype.reset_condition = function() {
-        var _ref;
-        return (_ref = this.conditionView) != null ? _ref.remove() : void 0;
-      };
+  index: function() {
+    this.indexView = new IndexView;
+    $('body').append(this.indexView.render().el);
+  },
 
-      return Router;
+  reset_index: function() {
+    /* Hide index here
+    */
+    if (this.indexView != null) {
+        this.indexView.remove();
+    }
+  },
 
-    })(Backbone.Router);
-    return new Router;
-  });
+  condition: function() {
+    this.conditionView = new ConditionView({
+      model: aneurysm
+    });
+    $('body').append(this.conditionView.render().el);
 
-}).call(this);
+    if (!aneurysm.get('name')) {
+      aneurysm.fetch();
+    }
+  },
 
-require(['cs!test/tweaks', 'cs!test/router']);
+  reset_condition: function() {
+    if (this.conditionView != null) {
+        this.conditionView.remove();
+    }
+  }
+
+});
+
+return new Router;
+});
+
+require(['underscore'], function(_){
+  _.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g,
+    evaluate: /\{\%(.+?)\%\}/g
+  };
+});
+
+require(['underscore', 'test/router']);
 
 define("main", function(){});

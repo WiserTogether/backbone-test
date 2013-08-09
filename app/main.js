@@ -1,1 +1,8 @@
-require(['cs!test/tweaks', 'cs!test/router']);
+require(['underscore'], function(_){
+  _.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g,
+    evaluate: /\{\%(.+?)\%\}/g
+  };
+});
+
+require(['underscore', 'test/router']);
