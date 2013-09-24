@@ -40,13 +40,17 @@ Your goal is to accomplish the following:
     * The View needs to fetch data from the Condition model
     * The View needs to render the Template you have created
 
-Once you have a working link and Aneurysm page displaying, do one more thing:
+Once you have a working link and Aneurysm page displaying, do two more things:
 
-**Do something interesting to make your demo a little bit better.**
+1. Do something interesting to make your demo a little bit better.
+2. Update this file (the README.md) with an explanation of what you did, what
+   you think the next steps are, and anything else you think we might find useful.
+   In particular, if any instructions are necessary to see your changes in action, you
+   should include them.
 
 Submitting Your Results
 =======================
 Submit your results by emailing us a patchset created via the git format-patch
-command.
+command. Please do NOT submit a pull request, as it will spoil the fun for others!
 
 Email your patchset to: tech-jobs@wisertogether.com
