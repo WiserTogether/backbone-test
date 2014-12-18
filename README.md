@@ -53,4 +53,3 @@ Submitting Your Results
 Submit your results by emailing us a patchset created via the git format-patch
 command. Please do NOT submit a pull request, as it will spoil the fun for others!
 
-Email your patchset to: tech-jobs@wisertogether.com
